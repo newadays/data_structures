@@ -8,14 +8,8 @@ class stack:
         else:
             return self.stack.pop()
 
-    def push(self, val):
-        return self.stack.append(val)
-
-    def top(self):
-        if self.is_empty():
-            return None
-        else:
-            return self.stack[-1]
+    def push(self, data):
+        self.stack.append(data)
 
     def size(self):
         return len(self.stack)
@@ -24,11 +18,9 @@ class stack:
         return self.size() == 0
 
 
-
-
 class Solution:
     # @param A : string
-    # @return a reversed strings
+    # @return a strings
     def reverseString(self, A):
         s = stack()
         for i in A:
@@ -42,8 +34,18 @@ class Solution:
             i -= 1
         return ar
 
+    def reverseString2(self, A):
+        i = 0
+        A = list(A)
+        j = len(A) - 1
+        while i < j:
+            A[i], A[j] = A[j], A[i]
+            i += 1
+            j -= 1
 
-A="((((([{()}[]]{{{[]}}})))))"
+        return str(A)
+
+
+A = "])"
 Sols = Solution()
-
-print(Sols.reverseString(A))
+print(Sols.reverseString2(A))
