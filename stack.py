@@ -28,7 +28,7 @@ class stack:
 
 class Solution:
     # @param A : string
-    # @return a strings
+    # @return a reversed strings
     def reverseString(self, A):
         s = stack()
         for i in A:
