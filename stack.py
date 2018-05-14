@@ -22,3 +22,28 @@ class stack:
 
     def is_empty(self):
         return self.size() == 0
+
+
+
+
+class Solution:
+    # @param A : string
+    # @return a strings
+    def reverseString(self, A):
+        s = stack()
+        for i in A:
+            s.push(i)
+            ar = ''
+
+        i = s.size()
+        ar = ''
+        while i > 0:
+            ar += s.pop()
+            i -= 1
+        return ar
+
+
+A="((((([{()}[]]{{{[]}}})))))"
+Sols = Solution()
+
+print(Sols.reverseString(A))
