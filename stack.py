@@ -11,7 +11,7 @@ class stack:
     def push(self, val):
         return self.stack.append(val)
 
-    def peak(self):
+    def top(self):
         if self.is_empty():
             return None
         else:
