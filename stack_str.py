@@ -11,6 +11,12 @@ class stack:
     def push(self, data):
         self.stack.append(data)
 
+    def peak(self):
+        if self.is_empty():
+            return None
+        else:
+            return self.stack[-1]
+
     def size(self):
         return len(self.stack)
 
@@ -44,6 +50,8 @@ class Solution:
             j -= 1
 
         return str(A)
+
+    #reverse LL using stacks
 
 
 A = "])"
