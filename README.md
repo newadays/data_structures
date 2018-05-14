@@ -1,3 +1,3 @@
 # practice
-data_structures
-Algorithms
+* data_structures
+* Algorithms
