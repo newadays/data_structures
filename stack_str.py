@@ -11,7 +11,7 @@ class stack:
     def push(self, data):
         self.stack.append(data)
 
-    def peak(self):
+    def top(self):
         if self.is_empty():
             return None
         else:
@@ -25,6 +25,7 @@ class stack:
 
 
 class Solution:
+    # reverse LL using stacks
     # @param A : string
     # @return a strings
     def reverseString(self, A):
@@ -51,9 +52,30 @@ class Solution:
 
         return str(A)
 
-    #reverse LL using stacks
+    #Balance Parentheses
+    # @param A : string
+    # @return an integer
+    def isValid(self, A):
+        s = stack()
+        ar = {"(":")", "[":"]", "{":"}"}
+        for i in A:
+            if i in ar:
+                s.push(i)
+            else:
+                if s.is_empty():
+                    return 0
+                else:
+                    if ar[s.top()]!=i:
+                        return 0
+                    else:
+                        s.pop()
+        if s.size() > 0:
+            return 0
+        else:
+            return 1
 
 
-A = "])"
+A = "[{"
 Sols = Solution()
 print(Sols.reverseString2(A))
+print(Sols.isValid(A))
