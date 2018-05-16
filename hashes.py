@@ -15,15 +15,15 @@ class Solution:
     # @param B : integer
     # @return an integer
     def diffPossible(self, A, B):
-        d = {}
-        for i in range(len(A)):
-            tmp1 = B + A[i]
-            tmp2 = A[i] - B
-            if tmp1 in d or tmp2 in d:
+        lst = {}
+        for i, v in enumerate(A):
+            if (v + B in lst) and (i != lst[v + B]):
+                return 1
+            elif v - B in lst and i != lst[v - B]:
                 return 1
             else:
-                d[A[i]] = True
-        return 0
+                lst[v] = i
+            return 0
 
     # @param A : string
     # @param B : tuple of strings
