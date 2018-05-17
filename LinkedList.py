@@ -8,6 +8,8 @@
 # So, 7 -> 0 -> 8 -> 0 is not a valid response even though the value is still 807.
 
 # Definition for singly-linked list.
+
+
 class ListNode:
     def __init__(self, x):
         self.val = x
@@ -52,13 +54,6 @@ class Solution:
         
         return head.next
 
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
     # @param A : head node of linked list
     # @param B : integer
     # @param C : integer
@@ -114,7 +109,48 @@ class Solution:
 
         return A
 
+    # @param A : head node of linked list
+    # @param B : head node of linked list
+    # @return the head node in the linked list
+    def getIntersectionNode(self, A, B):
+        def length(A):
+            current_node = A
+            count = 1
+            while current_node:
+                count += 1
+                current_node = current_node.next
+            return count
+
+        m = length(A)
+        n = length(B)
+        if m > 0 and n > 0:
+            d = abs(m - n)
+
+            i = 0
+            if d != 0:
+                if m > n:
+                    while i < d:
+                        A = A
+                        A = A.next
+                        i += 1
+                else:
+                    while i < d:
+                        B = B
+                        B = B.next
+                        i += 1
+
+            while A and B:
+                if (A == B):
+                    return A
+                else:
+                    A = A.next
+                    B = B.next
+
+        return None
+
 #LinkedList Class
+
+
 class Node:
     def __init__(self, data=None, next_node=None):
         self.data = data
