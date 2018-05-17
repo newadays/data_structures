@@ -1,26 +1,26 @@
-#   You are given two linked lists representing two non-negative numbers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
-
-# Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
-# Output: 7 -> 0 -> 8
-
-#  342 + 465 = 807
-# Make sure there are no trailing zeros in the output list
-# So, 7 -> 0 -> 8 -> 0 is not a valid response even though the value is still 807.
-
-# Definition for singly-linked list.
+# #   You are given two linked lists representing two non-negative numbers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+#
+# # Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+# # Output: 7 -> 0 -> 8
+#
+# #  342 + 465 = 807
+# # Make sure there are no trailing zeros in the output list
+# # So, 7 -> 0 -> 8 -> 0 is not a valid response even though the value is still 807.
+#
+# # Definition for singly-linked list.
 
 
 class ListNode:
     def __init__(self, x):
         self.val = x
         self.next = None
-    
+
+
 class Solution:
     # @param A : head node of linked list
     # @param B : head node of linked list
     # @return the head node in the linked list
-    
-    
+
     def addTwoNumbers(self, A, B):
         head = ListNode(0)
         pointer = head
@@ -32,7 +32,7 @@ class Solution:
             carry_over = int(s/10)
             A = A.next
             B = B.next
-        
+
         if A is None:
             while B:
                 s = B.val + carry_over
@@ -40,7 +40,7 @@ class Solution:
                 pointer = pointer.next
                 carry_over = int(s/10)
                 B = B.next
-        
+
         if B is None:
             while A:
                 s = A.val + carry_over
@@ -48,66 +48,48 @@ class Solution:
                 pointer = pointer.next
                 carry_over = int(s/10)
                 A = A.next
-                
+
         if carry_over > 0:
             pointer.next = ListNode(carry_over)
-        
+
         return head.next
 
     # @param A : head node of linked list
     # @param B : integer
     # @param C : integer
     # @return the head node in the linked
-    def reverseBetween(self, A, B, C):
+    def reverseBetween(self, head, m, n):
+        def reverse(head, m, n):
+            c = m
+            tail = None
+            prev, curr = None, head
+            while c <= n and curr:
+                c += 1
+                temp = curr.next
+                curr.next = prev
+                if tail is None:
+                    tail = curr
+                prev = curr
+                curr = temp
+            return prev, tail, curr
 
-        def size(A):
-            current_node = A.head
-            count = 0
-            while current_node:
-                count += 1
-                current_node = current_node.next()
-            return count
+        if not head or not head.next:
+            return head
 
-        def get_node(A, k):
-            current_node = A.head
-            i = 1
-            while current_node:
-                if i == k:
-                    return current_node
-                current_node = current_node.next()
-                i += 1
+        c = 1
+        prev, curr = None, head
+        while c < m and curr:
+            c += 1
+            prev, curr = curr, curr.next
 
-        def reverse(A):
-            current_node = A.head
-            prev_node = None
-            while current_node:
-                next = current_node.next_node
-                current_node.next = prev_node
-                prev_node = current_node
-                current_node = next
-
-            A.head = prev_node
-            return A
-
-        n = C
-        m = B
-        n_node = get_node(A, n)
-        if m > 1:
-            prev_node = get_node(A, m - 1)
-            m_node = get_node(A, m)
-            current_node = m_node
-            while current_node.next_node == n_node:
-                next = current_node.next_node
-                current_node.next_node = prev_node
-                prev_node = current_node
-                current_node = next
-
-            if size(A) == n:
-                A.head = prev_node
+        start, end, after = reverse(curr, c, n)
+        if end:
+            end.next = after
+        if prev:
+            prev.next = start
         else:
-            reverse(A)
-
-        return A
+            head = start
+        return head
 
     # @param A : head node of linked list
     # @param B : head node of linked list
@@ -229,3 +211,34 @@ class LinkedList(object):
 
                 previous_node = current_node
                 current_node = current_node.get_next()
+#
+#
+
+class ListNodes:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+    def get_node(self, k):
+        current = self.next
+        i = 0
+        while i < k:
+            current = current.next
+            i += 1
+        return current
+
+    def insert_node(self, data):
+        node = ListNode(data)
+        node.next = self.next
+        self.next = node
+
+
+a = [2,3,4,5,10]
+A = ListNodes(None)
+
+for i in a:
+    A.insert_node(i)
+
+second_node = A.get_node(2)
+print(second_node)
+print(A)
