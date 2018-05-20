@@ -1,3 +1,5 @@
 # practice
-* data_structures
+* Data Structures
+* Concepts
+* Problems and Solutions
 * Algorithms
