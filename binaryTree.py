@@ -155,7 +155,7 @@ def ldr(root):
 
 # traversal LRD (PostOrder) Left -> Right -> Root
 def lrd(root):
-    if root is None or root.data  is None:
+    if root is None or root.data is None:
         return None
     else:
         lrd(root.left)
@@ -163,6 +163,51 @@ def lrd(root):
         print(root.data)
 
 
+# Check is tree is a BST
+def bst_check(root):
+    q = []
+
+    def bst(head):
+        if head is None or head.data is None:
+            return None
+        else:
+            bst(head.left)
+            print(head.data)
+            q.append(head.data)
+            bst(head.right)
+        return q
+    if q is None:
+        return False
+    else:
+        r = bst(root)
+        return all(r[i] <= r[i+1] for i in range(len(q)-1))
+
+
+# InOrder Successor
+def inorder(root, data):
+    if root is None or root.data is None:
+        return None
+
+    node = find_node(root, data)
+
+    if node:
+        if node.right is not None:   # if right subtree exists then successor is left-most (minimum) in right subtree
+            return findMin(node.right).data
+        else:                       # find the deepest parent/ancestor for which node is in its left starting from root
+            successor = None
+            ancestor = root
+
+            while node != ancestor:
+
+                if node.data < ancestor.data:
+                    successor = ancestor
+                    ancestor = ancestor.left
+                else:
+                    ancestor = ancestor.right
+
+            return successor.data
+    else:
+        return None
 
 
 # binary tree
@@ -176,6 +221,7 @@ head = insert_node(head, 7)
 head = insert_node(head, 17)
 head = insert_node(head, 55)
 head = insert_node(head, 56)
+head = insert_node(head, 13)
 
 # ans = search_node(head, 11)
 # head = delete_node(head, 50)
@@ -188,6 +234,7 @@ head = insert_node(head, 56)
 # print(r)
 # print(dlr(head))
 # print(ldr(head))
-print(lrd(head))
-print(head)
+# print(lrd(head))
+print(inorder(head, 13))
+# print(head)
 # print(ans)
