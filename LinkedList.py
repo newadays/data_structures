@@ -278,36 +278,122 @@ def delete_node(A, data):
     return head
 
 
+# Given a linked list, remove the n-th node from the end of list and return its head.
+#
+# Example:
+#
+# Given linked list: 1->2->3->4->5, and n = 2.
+#
+# After removing the second node from the end, the linked list becomes 1->2->3->5.
 def removeNthFromEnd(head, n):
     """
     :type head: ListNode
     :type n: int
     :rtype: ListNode
     """
+    curr = head
+    size = 0
+    while curr != None:
+        size += 1
+        curr = curr.next
 
-    if n == 1:
+    # only one node
+    if size == 1:
+        head = None
+        return head
+    if size <= n:
         head = head.next
         return head
-    else:
-        current = head
-        for i in range(0, n-2):
-            current = current.next
 
-        current.next = current.next.next
+    s = size - n + 1
+    curr = head
+    for i in range(0, s - 2):
+        curr = curr.next
 
+    curr.next = curr.next.next
     return head
 
 
+# Palindromes
+# @param A : head node of linked list
+# @return an integer
+def lPalin_(A):
+    # find len, reverse half and compare
+
+    if A:
+        if A.next:
+            l = []
+            s = []
+            while A:
+                l.append(A.val)
+                s.insert(0, A.val)
+                A = A.next
+
+            while l:
+                if l.pop() != s.pop():
+                    return 0
+        return 1
+
+    else:
+
+        return 0
+
+
+def lPalin(A):
+    reverse = None
+    slow = fast = A
+    while fast and fast.next:
+        fast = fast.next.next
+        # Reverse the first half
+        reverse, reverse.next, slow = slow, reverse, slow.next
+    # If list has odd no. of nodes
+    if fast:
+        slow = slow.next
+    # Expand from the mid node
+    while reverse and reverse.val == slow.val:
+        slow = slow.next
+        reverse = reverse.next
+    return int(not reverse)
+
+
+# @param A : head node of linked list
+# @return the first node in the cycle in the linked list
+def detectCycle(A):
+    ls = {}
+    head = A
+    if A is not None and A.val is not None:
+        while A.next:
+            if hash(A.val) in ls:
+                return ls[A.val]
+            else:
+                ls[A.val] = A
+            A = A.next
+        return None
+    else:
+        return None
+
+
+# find size
+def size(head):
+    count = 0
+    while head:
+        count += 1
+        head = head.next
+    return count
+
+
 root = Node()
-root = insert(root, 5)
-root = insert(root, 4)
-root = insert(root, 3)
-root = insert(root, 2)
+# root = insert(root, 5)
+# root = insert(root, 4)
+# root = insert(root, 3)
+root = insert(root, 8)
 root = insert(root, 1)
 
-
-root = removeNthFromEnd(root, 5)
+print(size(root))
+# root = removeNthFromEnd(root, 1)
+# root = lPalin(root)
 curr = root
 while curr.next:
     print(curr.val)
     curr = curr.next
+print(root)
