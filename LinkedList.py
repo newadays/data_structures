@@ -53,82 +53,84 @@
 #             pointer.next = ListNode(carry_over)
 #
 #         return head.next
-#
-#     # @param A : head node of linked list
-#     # @param B : integer
-#     # @param C : integer
-#     # @return the head node in the linked
-#     def reverseBetween(self, head, m, n):
-#         def reverse(head, m, n):
-#             c = m
-#             tail = None
-#             prev, curr = None, head
-#             while c <= n and curr:
-#                 c += 1
-#                 temp = curr.next
-#                 curr.next = prev
-#                 if tail is None:
-#                     tail = curr
-#                 prev = curr
-#                 curr = temp
-#             return prev, tail, curr
-#
-#         if not head or not head.next:
-#             return head
-#
-#         c = 1
-#         prev, curr = None, head
-#         while c < m and curr:
-#             c += 1
-#             prev, curr = curr, curr.next
-#
-#         start, end, after = reverse(curr, c, n)
-#         if end:
-#             end.next = after
-#         if prev:
-#             prev.next = start
-#         else:
-#             head = start
-#         return head
-#
-#     # @param A : head node of linked list
-#     # @param B : head node of linked list
-#     # @return the head node in the linked list
-#     def getIntersectionNode(self, A, B):
-#         def length(A):
-#             current_node = A
-#             count = 1
-#             while current_node:
-#                 count += 1
-#                 current_node = current_node.next
-#             return count
-#
-#         m = length(A)
-#         n = length(B)
-#         if m > 0 and n > 0:
-#             d = abs(m - n)
-#
-#             i = 0
-#             if d != 0:
-#                 if m > n:
-#                     while i < d:
-#                         A = A
-#                         A = A.next
-#                         i += 1
-#                 else:
-#                     while i < d:
-#                         B = B
-#                         B = B.next
-#                         i += 1
-#
-#             while A and B:
-#                 if (A == B):
-#                     return A
-#                 else:
-#                     A = A.next
-#                     B = B.next
-#
-#         return None
+
+
+# @param A : head node of linked list
+# @param B : integer
+# @param C : integer
+# @return the head node in the linked
+def reverseBetween(head, m, n):
+    def reverse(head, m, n):
+        c = m
+        tail = None
+        prev, curr = None, head
+        while c <= n and curr:
+            c += 1
+            temp = curr.next
+            curr.next = prev
+            if tail is None:
+                tail = curr
+            prev = curr
+            curr = temp
+        return prev, tail, curr
+
+    if not head or not head.next:
+        return head
+
+    c = 1
+    prev, curr = None, head
+    while c < m and curr:
+        c += 1
+        prev, curr = curr, curr.next
+
+    start, end, after = reverse(curr, c, n)
+    if end:
+        end.next = after
+    if prev:
+        prev.next = start
+    else:
+        head = start
+    return head
+
+
+# @param A : head node of linked list
+# @param B : head node of linked list
+# @return the head node in the linked list
+def getIntersectionNode(A, B):
+    def length(A):
+        current_node = A
+        count = 1
+        while current_node:
+            count += 1
+            current_node = current_node.next
+        return count
+
+    m = length(A)
+    n = length(B)
+    if m > 0 and n > 0:
+        d = abs(m - n)
+
+        i = 0
+        if d != 0:
+            if m > n:
+                while i < d:
+                    A = A
+                    A = A.next
+                    i += 1
+            else:
+                while i < d:
+                    B = B
+                    B = B.next
+                    i += 1
+
+        while A and B:
+            if (A == B):
+                return A
+            else:
+                A = A.next
+                B = B.next
+
+    return None
 #
 # #LinkedList Class
 #

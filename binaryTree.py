@@ -1,8 +1,6 @@
-
-
 class Node:
     def __init__(self, data=None):
-        self.data = data
+        self.val = data
         self.left = None
         self.right = None
 
@@ -14,13 +12,13 @@ def get_node(data):
     return new_node  # return the address of the new node
 
 
-def insert_node(root, data):
-    if root is None or root.data is None:
-        root = get_node(data)
-    elif data <= root.data:
-        root.left = insert_node(root.left, data)
+def insert_node(root, val):
+    if root is None or root.val is None:
+        root = get_node(val)
+    elif val <= root.val:
+        root.left = insert_node(root.left, val)
     else:
-        root.right = insert_node(root.right, data)
+        root.right = insert_node(root.right, val)
     return root
 
 
@@ -60,7 +58,7 @@ def findMax(root):
         return root
 
     elif root.right is None:
-            return root
+        return root
 
     return findMax(root.right)
 
@@ -77,10 +75,10 @@ def height(root):
 def delete_node(root, data):
     if root is None or root.data is None:
         return root
-    elif data < root.data:   # addresses of root are updated here (top of stack)
+    elif data < root.data:  # addresses of root are updated here (top of stack)
         print(root.data)
         root.left = delete_node(root.left, data)
-    elif data > root.data:   # addresses of root are updated here (top of stack)
+    elif data > root.data:  # addresses of root are updated here (top of stack)
         print(root.data)
         root.right = delete_node(root.right, data)
     else:
@@ -112,7 +110,6 @@ def delete_node(root, data):
 
 # traversal - BFT
 def bft(root):
-
     def bft_node(q):
         result = []
         while q:
@@ -163,7 +160,7 @@ def lrd(root):
         print(root.data)
 
 
-# Check is tree is a BST
+# Check is tree is a BST - only for positive integers
 def bst_check(root):
     q = []
 
@@ -176,11 +173,21 @@ def bst_check(root):
             q.append(head.data)
             bst(head.right)
         return q
+
     if q is None:
         return False
     else:
         r = bst(root)
-        return all(r[i] <= r[i+1] for i in range(len(q)-1))
+        return all(r[i] <= r[i + 1] for i in range(len(q) - 1))
+
+def isValidBST(A):
+    import sys
+    def validate(node, minm, maxm):
+        if not node:
+            return 1
+        return 1 if node.val > minm and node.val < maxm and validate(node.left, minm, node.val) and validate(node.right, node.val, maxm) else 0
+
+    return validate(A, -sys.maxsize - 1, sys.maxsize)
 
 
 # InOrder Successor
@@ -191,9 +198,9 @@ def inorder(root, data):
     node = find_node(root, data)
 
     if node:
-        if node.right is not None:   # if right subtree exists then successor is left-most (minimum) in right subtree
+        if node.right is not None:  # if right subtree exists then successor is left-most (minimum) in right subtree
             return findMin(node.right).data
-        else:                       # find the deepest parent/ancestor for which node is in its left starting from root
+        else:  # find the deepest parent/ancestor for which node is in its left starting from root
             successor = None
             ancestor = root
 
@@ -210,8 +217,46 @@ def inorder(root, data):
         return None
 
 
+# @param A : root node of tree
+# @param B : integer
+# @return the root node in the tree
+def getSuccessor(A, B):
+    def findMin(A):
+        head = A
+        while head.left:
+            head = head.left
+        return head
+
+    x = B
+    root = A
+    if root:
+        while root.val != x:
+            if x < root.val:
+                root = root.left
+            else:
+                root = root.right
+
+        if root.right:
+            # find the leftmost node in right subtree
+            return findMin(root.right)
+        else:
+            # find the deepest ancestor for which x is in left subtree
+            ancestor = A
+            successor = None
+            while ancestor:
+                if root.val < ancestor.val:
+                    successor = ancestor
+                    ancestor = ancestor.left
+                else:
+                    ancestor = ancestor.right
+
+            return successor
+    else:
+        return None
+
+
 # binary tree
-head = Node()    # not actually the root but a pointer to the root
+head = Node()  # not actually the root but a pointer to the root
 # test = get_node(20)
 head = insert_node(head, 15)
 head = insert_node(head, 10)
@@ -223,6 +268,15 @@ head = insert_node(head, 55)
 head = insert_node(head, 56)
 head = insert_node(head, 13)
 
+# unbalanced tree
+# head = insert_node(head, 7)
+# head = insert_node(head, 4)
+# head = insert_node(head, -1)
+# head = insert_node(head, 5)
+# head = insert_node(head, 3)
+# head = insert_node(head, -1)
+# head = insert_node(head, -1)
+# head = insert_node(head, -1)
 # ans = search_node(head, 11)
 # head = delete_node(head, 50)
 # min_node = findMin(head)
@@ -235,6 +289,48 @@ head = insert_node(head, 13)
 # print(dlr(head))
 # print(ldr(head))
 # print(lrd(head))
-print(inorder(head, 13))
+print(isValidBST(head))
+# print(inorder(head, 13))
+
+
 # print(head)
 # print(ans)
+# Definition for a  binary tree node
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+# case 1: node has a right subtree i.e. the min in the right subtree
+# case 2: there's no right subtree - we find the deepest node
+
+
+# class Solution:
+#     # @param A : root node of tree
+#     # @return an integer
+#     def isValidBST(self, A):
+#
+#         # bst walktthrough and check if balanced
+#         root = A
+#         r_root = A
+#
+#         if root:
+#             while root and r_root:
+#                 # check left
+#                 if root.left.val > root.val:
+#                     return 0
+#                 elif root.right.val < root.val:
+#                     return 0
+#                 else:
+#                     root = root.left
+#                 # check right
+#             if r_root.left.val > r_root.val:
+#                 return 0
+#             elif r_root.right.val < r_root.val:
+#                 return 0
+#             else:
+#                 r_root = r_root.right
+#             return 1
+#
+#         else:
+#             return 0
