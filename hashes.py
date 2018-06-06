@@ -44,11 +44,7 @@ class Solution:
             result = []
             start = 0
             end = lw * l
-            #same characters and repeated words
-            c = dict(Counter(A))
-            if len(list(set(B))[0]) == len(B[0]) and len(c) == 1:
-                if len(c) == len(list(set(B))):
-                    return list(range(len(A) - end + 1))
+
 
             while start <= l_str:
                 words = A[start:end]
@@ -106,28 +102,6 @@ Solution = Solution()
 # L = [ "cac", "aaa", "aba", "aab", "abc" ]
 # print(Solution.findSubstring(S, L))
 # x = Solution()
-print(Solution.equal([ 3, 4, 7, 1, 2, 9, 8  ]))
-
-
-# Given a read only array of n + 1 integers between 1 and n, find one number that repeats in linear time using less than O(n) time and traversing the stream sequentially O(1) space.
-
-# [-3     4      1      -4    - 1 ]
-# a0    a1     a2     a3     a4
-# a[a0]  a[a1]  a[a2]  a[a3]
-
-
-# [ 3    4    1    4     1 ]
-
-
-# def dups(A):
-#     n = len(A)
-#     for i in range(n - 1):
-#         if A[abs(A[i])] >= 0:
-#             A[abs(A[i])] = -A[abs(A[i])]
-#         else:
-#             return -A[i]
-#
-#
-# print(dups([3, 5, 1, 4, 5, 1, 1]))
+print(Solution.equal([ 3, 4, 7, 1, 2, 9, 8]))
 
 

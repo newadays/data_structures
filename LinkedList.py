@@ -183,7 +183,7 @@ class Solution:
             s = A.val + B.val + carry_over
             pointer.next = ListNode(s % 10)
             pointer = pointer.next
-            carry_over = int(s/10)
+            carry_over = int(s / 10)
             A = A.next
             B = B.next
 
@@ -192,7 +192,7 @@ class Solution:
                 s = B.val + carry_over
                 pointer.next = ListNode(s % 10)
                 pointer = pointer.next
-                carry_over = int(s/10)
+                carry_over = int(s / 10)
                 B = B.next
 
         if B is None:
@@ -200,13 +200,14 @@ class Solution:
                 s = A.val + carry_over
                 pointer.next = ListNode(s % 10)
                 pointer = pointer.next
-                carry_over = int(s/10)
+                carry_over = int(s / 10)
                 A = A.next
 
         if carry_over > 0:
             pointer.next = ListNode(carry_over)
 
         return head.next
+
 
 # @param A : head node of linked list
 # @param B : head node of linked list
@@ -339,7 +340,11 @@ def detectCycle(A):
     else:
         return None
 
+    # root = removeNthFromEnd(root, 1)
+    # root = lPalin(root)
 
-# root = removeNthFromEnd(root, 1)
-# root = lPalin(root)
+    #         self.val = x
+    #         self.next = None
+
+
 

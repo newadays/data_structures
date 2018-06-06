@@ -1,218 +1,187 @@
-class Node:
-    def __init__(self, data=None):
-        self.val = data
+# Binary Trees - Binary Search Tree and Binary Tree
+class TreeNode:
+    def __init__(self, x=None):
+        self.val = x
         self.left = None
         self.right = None
 
 
-def get_node(data):
-    new_node = Node(data)
-    new_node.left = None
-    new_node.right = None
-    return new_node  # return the address of the new node
+#create treenode
+def getNode(x):
+    node = TreeNode(x)
+    return node
 
 
-def insert_node(root, val):
-    if root is None or root.val is None:
-        root = get_node(val)
-    elif val <= root.val:
-        root.left = insert_node(root.left, val)
-    else:
-        root.right = insert_node(root.right, val)
-    return root
+# insert
+def insert_node(root, x):
+    if root is None:
+        root = getNode(x)
 
-
-def search_node(root, data):
-    if root is None or root.data is None:
-        return False
-    elif data == root.data:
-        return True
-    elif data <= root.data:
-        return search_node(root.left, data)
-    else:
-        return search_node(root.right, data)
-
-
-def find_node(root, data):
-    if root is None or root.data is None:
-        return root
-    elif data == root.data:
-        return root
-    elif data <= root.data:
-        return find_node(root.left, data)
-    else:
-        return find_node(root.right, data)
-
-
-def findMin(root):
-    if root is None or root.data is None:
-        return root
-    else:
-        while root.left:
-            root = root.left
-        return root
-
-
-def findMax(root):
-    if root is None or root.data is None:
-        return root
-
-    elif root.right is None:
-        return root
-
-    return findMax(root.right)
-
-
-def height(root):
-    if root is None or root.data is None:
-        return -1
-    else:
-        root.left = height(root.left)
-        root.right = height(root.right)
-        return max(root.left, root.right) + 1
-
-
-def delete_node(root, data):
-    if root is None or root.data is None:
-        return root
-    elif data < root.data:  # addresses of root are updated here (top of stack)
-        print(root.data)
-        root.left = delete_node(root.left, data)
-    elif data > root.data:  # addresses of root are updated here (top of stack)
-        print(root.data)
-        root.right = delete_node(root.right, data)
-    else:
-        if root.left is None and root.right is None:
-            print(root.data)
-            del root
-            root = None
-            return root
-
-        elif root.left is None:
-            print(root.data)
-            temp = root
-            root = root.right
-            del temp
-
-        elif root.right is None:
-            print(root.data)
-            temp = root
-            root = root.left
-            del temp
-
+    elif x <= root.val:
+        if root.left is None:
+            root.left = getNode(x)
         else:
-            min_ = findMin(root.right)
-            root.data = min_.data
-            root.right = delete_node(root.right, min_.data)
+            insert_node(root.left, x)
 
-    return root
+    else:
+        if root.right is None:
+            root.right = getNode(x)
+        else:
+            insert_node(root.right, x)
 
 
-# traversal - BFT
+# bft - breadth first
 def bft(root):
-    def bft_node(q):
-        result = []
+    def bft_trav(q):
         while q:
             temp = q[-1]
-            print(temp.data)
             if temp.left:
                 q.insert(0, temp.left)
+
             if temp.right:
                 q.insert(0, temp.right)
-            result.append(q.pop().data)
-        return result
 
-    if root is None or root.data is None:
-        return None
+            print(temp.val)
+            q.pop()
+
+    bft = bft_trav([root])
+
+
+# dft - depth first search
+# DRL - PreOrder : root -> left -> right
+def drl(root):
+    if root is None:
+        return
     else:
-        que = [root]
-
-    return bft_node(que)
-
-
-# traversal DLR (PreOrder) Root -> Left -> Right
-def dlr(root):
-    if root is None or root.data is None:
-        return None
-    else:
-        print(root.data)
-        dlr(root.left)
-        dlr(root.right)
+        print(root.val)
+        drl(root.left)
+        drl(root.right)
 
 
-# traversal LDR (InOrder/Binary Search Tree) Left -> Root -> Right
+# LRD - InOrder : left -> root -> right
 def ldr(root):
-    if root is None or root.data is None:
-        return None
+    if root is None:
+        return
     else:
         ldr(root.left)
-        print(root.data)
+        print(root.val)
         ldr(root.right)
 
 
-# traversal LRD (PostOrder) Left -> Right -> Root
+# LRD - PostOrder : left -> right -> root
 def lrd(root):
-    if root is None or root.data is None:
-        return None
+    if root is None:
+        return
     else:
         lrd(root.left)
         lrd(root.right)
-        print(root.data)
+        print(root.val)
 
 
-# Check is tree is a BST - only for positive integers
-def bst_check(root):
-    q = []
-
-    def bst(head):
-        if head is None or head.data is None:
-            return None
-        else:
-            bst(head.left)
-            print(head.data)
-            q.append(head.data)
-            bst(head.right)
-        return q
-
-    if q is None:
-        return False
-    else:
-        r = bst(root)
-        return all(r[i] <= r[i + 1] for i in range(len(q) - 1))
-
-def isValidBST(A):
-    import sys
-    def validate(node, minm, maxm):
-        if not node:
-            return 1
-        return 1 if node.val > minm and node.val < maxm and validate(node.left, minm, node.val) and validate(node.right, node.val, maxm) else 0
-
-    return validate(A, -sys.maxsize - 1, sys.maxsize)
-
-
-# InOrder Successor
-def inorder(root, data):
-    if root is None or root.data is None:
+def search(root, val):
+    if root is None:
         return None
+    else:
+        if root.val == val:
+            return root
+        elif val < root.val:
+            return search(root.left, val)
+        else:
+            return search(root.right, val)
 
-    node = find_node(root, data)
 
-    if node:
-        if node.right is not None:  # if right subtree exists then successor is left-most (minimum) in right subtree
-            return findMin(node.right).data
-        else:  # find the deepest parent/ancestor for which node is in its left starting from root
-            successor = None
-            ancestor = root
+def findMin(root):
+    if root is None:
+        return None
+    while root.left:
+        root = root.left
+    return root
 
-            while node != ancestor:
 
-                if node.data < ancestor.data:
-                    successor = ancestor
-                    ancestor = ancestor.left
-                else:
-                    ancestor = ancestor.right
+def findMax(root):
+    if root is None:
+        return None
+    while root.right:
+        root = root.right
+    return root
 
-            return successor.data
+
+# delete a node
+# case 1 - leaf node
+# case 2 - node with single child - set move the parent of deleted down
+# case 3 - Has both left and right child
+
+def delete_node(root, val):
+    if root is None:
+        return None
+    elif val < root.val:
+        root.left = delete_node(root.left, val)
+    elif val > root.val:
+        root.right = delete_node(root.right, val)
+    else:
+        if root.left is None and root.right is None:
+            del root
+            root = None
+            return root
+        elif root.left is None:
+            temp = root
+            root = root.right
+            del temp
+        elif root.right is None:
+            temp = root
+            root = root.left
+            del temp
+        else:
+            min_ = findMin(root.right)
+            root.val = min_.val
+            root.right = delete_node(root.right, min_.val)
+    return root
+
+
+def height(root):
+    if root is None:
+        return 0
+    else:
+        left_height = height(root.left)
+        right_height = height(root.right)
+        return max(left_height, right_height) + 1
+
+# @param A : root node of tree
+# @return an integer
+
+
+def minDepth(A):
+    root = A
+    if root is None:
+        return 0
+    if root.left is None and root.right is None:
+        return 1
+    if root.right is None:
+        return minDepth(root.left) + 1
+    if root.left is None:
+        return minDepth(root.right) + 1
+
+    return min(minDepth(root.left), minDepth(root.right))+1
+
+
+# Function to find LCA of n1 and n2. The function assumes
+# that both n1 and n2 are present in BST
+def lca(A, B, C):
+
+    def lca_(root, n1, n2):
+        if root is None:
+            return None
+        elif n1 < root.val and n2 < root.val:
+            return lca(root.left, n1, n2)
+        elif n1 > root.val and n2 > root.val:
+            return lca(root.right, n1, n2)
+        return root
+
+    chk1 = search(A, B)
+    chk2 = search(A, C)
+
+    if chk1 and chk2:
+        return lca_(A, B, C).val
     else:
         return None
 
@@ -254,20 +223,22 @@ def getSuccessor(A, B):
     else:
         return None
 
+def isValidBST(A):
+    import sys
+    def validate(node, minm, maxm):
+        if not node:
+            return 1
+        return 1 if node.val > minm and node.val < maxm and validate(node.left, minm, node.val) and validate(node.right, node.val, maxm) else 0
 
-# binary tree
-head = Node()  # not actually the root but a pointer to the root
-# test = get_node(20)
-head = insert_node(head, 15)
-head = insert_node(head, 10)
-head = insert_node(head, 50)
-head = insert_node(head, 25)
-head = insert_node(head, 7)
-head = insert_node(head, 17)
-head = insert_node(head, 55)
-head = insert_node(head, 56)
-head = insert_node(head, 13)
+    return validate(A, -sys.maxsize - 1, sys.maxsize)
 
+head = TreeNode(10)
+insert_node(head, 5)
+insert_node(head, 7)
+insert_node(head, 2)
+insert_node(head, 15)
+insert_node(head, 25)
+insert_node(head, 11)
 # unbalanced tree
 # head = insert_node(head, 7)
 # head = insert_node(head, 4)
@@ -279,58 +250,99 @@ head = insert_node(head, 13)
 # head = insert_node(head, -1)
 # ans = search_node(head, 11)
 # head = delete_node(head, 50)
-# min_node = findMin(head)
-# max_node = findMax(head)
-# print(min_node.data)
-# print(max_node.data)
+
+# bft(head)
+# drl(head)
+# ldr(head)
+# lrd(head)
+# print(search(head, 11))
+# print(findMin(head).val)
 # print(height(head))
-# r = bft(head)
-# print(r)
-# print(dlr(head))
-# print(ldr(head))
-# print(lrd(head))
-print(isValidBST(head))
-# print(inorder(head, 13))
+# print(lca(head, 5, 11).val)
+# drl(head)
 
 
-# print(head)
-# print(ans)
-# Definition for a  binary tree node
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-# case 1: node has a right subtree i.e. the min in the right subtree
-# case 2: there's no right subtree - we find the deepest node
+# Finds the path from root node to given root of the tree.
+# Stores the path in a list path[], returns true if path
+# exists otherwise false
+# Returns LCA if node n1 , n2 are present in the given
+# binary tre otherwise return -1
+def findLCA(head, n1, n2):
+    # Code here
+    p1 = []
+    p2 = []
+
+    def path(root, ls, n):
+        if root is None:
+            return False
+
+        ls.append(root.val)
+
+        if root.val == n:
+            return True
+
+        if (root.left != None and path(root.left, ls, n) != False) or (
+                root.right != None and path(root.right, ls, n) != False):
+            return True
+        ls.pop()
+        return False
+
+    path(head, p1, n1)
+    path(head, p2, n2)
+
+    if n1 in p1 and n2 in p2:
+        i = 0
+        while (i < (len(p1) - 1)) and (i < (len(p1) - 1)):
+            if p1[i] != p2[i]:
+                break
+            i += 1
+        return p1[i - 1]
+    else:
+        return -1
 
 
-# class Solution:
-#     # @param A : root node of tree
-#     # @return an integer
-#     def isValidBST(self, A):
-#
-#         # bst walktthrough and check if balanced
-#         root = A
-#         r_root = A
-#
-#         if root:
-#             while root and r_root:
-#                 # check left
-#                 if root.left.val > root.val:
-#                     return 0
-#                 elif root.right.val < root.val:
-#                     return 0
-#                 else:
-#                     root = root.left
-#                 # check right
-#             if r_root.left.val > r_root.val:
-#                 return 0
-#             elif r_root.right.val < r_root.val:
-#                 return 0
-#             else:
-#                 r_root = r_root.right
-#             return 1
-#
-#         else:
-#             return 0
+# print(findLCA(head, 5, 11))
+
+
+class BSTIterator:
+    # @param root, a binary search tree's root node
+    ls = []
+
+    def __init__(self, root):
+        self.ls = self.ldr(root, self.ls)
+
+    def ldr(self, root, ls):
+        if root is None:
+            return
+        else:
+            self.ldr(root.left, ls)
+            self.ls.insert(0, root.val)
+            self.ldr(root.right, ls)
+        return ls
+
+    # def findMin(self, root, k):
+    #     while root.left:
+    #         root = root.left
+    #     return root.left
+
+    # @return a boolean, whether we have a next smallest number
+    def hasNext(self):
+        return True if self.ls else False
+
+    # @return an integer, the next smallest number
+    def next(self):
+        return self.ls.pop()
+
+
+# Your BSTIterator will be called like this:
+# i = BSTIterator(root)
+# while i.hasNext(): print i.next(),
+
+
+
+test = BSTIterator(head)
+print(test.ls)
+print(test.next())
+print(test.next())
+
+

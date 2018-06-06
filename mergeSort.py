@@ -67,3 +67,5 @@ def sqrt(A):
 A = [2,4,3,1]
 # print(mergeSort(A,4))
 print(sqrt(37))
+
+

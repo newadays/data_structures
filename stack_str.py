@@ -29,12 +29,12 @@ class Solution:
     # @param A : string
     # @return a strings
     def reverseString(self, A):
-        s = stack()
+        s = []
         for i in A:
-            s.push(i)
+            s.append(i)
             ar = ''
 
-        i = s.size()
+        i = len(s)
         ar = ''
         while i > 0:
             ar += s.pop()
@@ -56,20 +56,25 @@ class Solution:
     # @param A : string
     # @return an integer
     def isValid(self, A):
-        s = stack()
+        def is_empty(arr):
+            if len(arr) > 0:
+                return False
+            else:
+                return True
+        s = []
         ar = {"(":")", "[":"]", "{":"}"}
         for i in A:
             if i in ar:
-                s.push(i)
+                s.append(i)
             else:
-                if s.is_empty():
+                if is_empty(s):
                     return 0
                 else:
-                    if ar[s.top()]!=i:
+                    if ar[s[-1]]!=i:
                         return 0
                     else:
                         s.pop()
-        if s.size() > 0:
+        if is_empty(s):
             return 0
         else:
             return 1
@@ -89,9 +94,42 @@ class Solution:
             stack.append(i)
         return ans
 
+    def longestValidParentheses(self, A):
+        """
+        :type s: str
+        :rtype: int
+        """
+        # ls = {"(":")"}
+        s = []
+        s.append(-1)
+        res = 0
+
+        def is_empty(arr):
+            if len(arr) > 0:
+                return False
+            else:
+                return True
+
+        for i in range(len(A)):
+            if (A[i] == '('):
+                s.append(i)
+            else:
+                s.pop()
+                if is_empty(s):
+                    s.append(i)
+                else:
+                    r = i - s[-1]
+                    res = max(r, res)
+
+        return res
+
+
 # A = "[{"
 Sols = Solution()
 # print(Sols.reverseString2(A))
 # print(Sols.isValid(A))
-print(Sols.largestRectangleArea([2,1,5,6,2,3]))
+print(Sols.largestRectangleArea([2, 1, 5, 6, 2, 3]))
+
+
+
 

@@ -1,200 +1,123 @@
 class Solution:
     # @param A : integer
     # @return a strings
-    def genSeq(self, s):
-        # s = '1211'
-        j = 0
-        q = ''
-        while j <= len(s) - 1:
-            ch = s[j]
+    def countAndSay(self, n):
+        ls = ['1', '11', '21', '1211', '111221']
+
+        def genCand(item):
             i = 0
-            # count repitions
-            while j <= len(s) - 1:
-                if ch != s[j]:
-                    break
-                else:
-                    i += 1
-                    j += 1
-            q += str(i) + ch
-        return q
+            rs = ''
+            while i <= len(item) - 1:
+                j = 0
+                while j + i <= len(item) - 1:
+                    if item[i] != item[j + i]:
+                        break
+                    else:
+                        j += 1
+                rs += str(j) + str(item[i])
+                i += j
+            return rs
 
-    def countAndSay(self, A):
-        seq = ['1', '11', '21', '1211', '111221']
+        if n < len(ls):
+            return ls[n - 1]
+        else:
+            i = len(ls) - 1
+            while i < n - 1:
+                result = str(genCand(ls[i]))
+                ls.append(result)
+                i += 1
 
-        k = len(seq) - 1
-        while k <= A:
-            temp = self.genSeq(seq[k])
-
-            seq.append(temp)
-
-            k += 1
-
-        return seq[A - 1]
+        return ls[n - 1]
 
     # @param A : string
     # @return string
     def reverseWords(self, A):
-        if len(A.split(" ")) > 1:
-            w = ""
-            words = A.split(" ")
-            for i in range(len(words) - 1, -1, -1):
-                w += (words[i] + " ")
-
-            return w.rstrip()
+        if len(A) > 1:
+            words = ''
+            a = A.split(" ")
+            for i in range(len(a) - 1, -1, -1):
+                words += a[i] + " "
+            return words.strip()
         else:
-            return A
-#
-#     # @param A : string
-#     # @param B : string
-#     # @return an integer
-#     # Implement strStr().strstr - locate a substring ( needle ) in a string ( haystack ).
-#     # Try not to use standard library string functions for this question.
-#     # Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
-#     # Good clarification questions: What should be the return value if the needle is empty?
-#     # What if both haystack and needle are empty?For the purpose of this problem,
-#     # assume that the return value should be -1 in both cases.
+            return A.strip()
+
+    # @param A : string
+    # @param B : string
+    # @return an integer
+    # Implement strStr().strstr - locate a substring ( needle ) in a string ( haystack ).
+    # Try not to use standard library string functions for this question.
+    # Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+    # Good clarification questions: What should be the return value if the needle is empty?
+    # What if both haystack and needle are empty?For the purpose of this problem,
+    # assume that the return value should be -1 in both cases.
     def strStr(self, A, B):
         if A:
-            words = A.split(" ")
-            if len(A) == len(words):
-                # words
+            res = None
+            if len(A.split(' ')) > 1:
+                A = A.split(' ')
                 ls = {}
-                for i in range(len(words)):
+                for i in range(len(A)):
                     if B in ls:
-                        return ls[words[i]]
+                        return ls[B]
                     else:
-                        ls[words[i]] = i
-                if B in ls:
-                    return ls[words[i]]
-                else:
-                    return -1
+                        if A[i] not in ls:
+                            ls[A[i]] = i
             else:
                 try:
-                    words = A.index(B)
+                    res = A.index(B)
                 except ValueError:
                     return -1
-                if words:
-                    return words
-
-        else:
+                if res is not None:
+                    return res
             return -1
-
+    # @param A : string
+    # @return a list of strings
     def letterCombinations(self, A):
-        ls = {0: 0, 1: 1, 2: 'abc', 3: 'def', 4: 'ghi', 5: 'jkl', 6: 'mno', 7: 'pqrs', 8: 'tuv', 9: 'wxyz'}
-
-        # m = 'abc'  # ls[A[i]] = 2
-        # n = 'ghi'  # ls[A[i+1]] = 3
-        A.sort()
+        ls = {'0': '0', '1': '1', '2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl', '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'}
         res = ['']
-        for k in A:
+        for i in A:
             newRes = []
-            for i in res:
-                for j in ls[int(k)]:
-                    newRes.append(i + j)
+            for j in res:
+                for k in ls[i]:
+                    newRes.append(j + k)
             res = newRes
         return res
 
 sols = Solution()
-print(sols.letterCombinations(list("23")))
-# class Solution:
-#     # @param A : list of integers
-#     # @param B : integer
-#     # @return a list of list of integers
-#     # Given candidate set 2,3,6,7 and target 7,
-#     # A solution set is:
-#     # [2, 2, 3]
-#     # [7]
-#     def combinationSum(self, A, t):
-#         ls = []
-
-#
-# def findSum(L, t, k, sum_, l):
-#     rst = 0
-#     while k < len(L):  # case 1: n * k = t
-#         sum_ += L[k]
-#         if sum_ == t:
-#             k += 1
-#             rst = 1
-#             yield l
-#
-#         if rst == 1:
-#             l = []
-#             sum_ = 0
-#             rst = 0
-#         l.append(L[k])
-#
-#         findSum(L, t, k, sum_, l)
-#
-#
-# A = [2,2,3]
-#
-# ls = []
-# for i in A:
-#     ls.append(list(findSum(A, 4, 0, 0, [])))
-#
-#
-#
-#
-# print(ls)
+print(sols.letterCombinations(list("234")))
 
 
-# Python program to print all permutations with
-# duplicates allowed
-
-#
-# def toString(List):
-#     return ''.join(List)
-
-
-# Function to print permutations of string
-# This function takes three parameters:
-# 1. String
-# 2. Starting index of the string
-# 3. Ending index of the string.
-# def permute(a, l, r):
-#     if l == r:
-#         print(toString(a))
-#     else:
-#         for i in range(l, r + 1):
-#             a[l], a[i] = a[i], a[l]
-#             permute(a, l + 1, r)
-#             a[l], a[i] = a[i], a[l]  # backtrack
-
-# def permute(list, s):
-#     if list == 1:
-#         return s
-#     else:
-#         return [ y + x
-#                  for y in permute(1, s)
-#                  for x in permute(list - 1, s)
-#                  ]
-
-# print(permute(2, ["a","b","c"]))
-# # Driver program to test the above function
-# string = "ABC"
-# n = len(string)
-# a = list(string)
-# permute(a, 0, n-1)
-# sols = Solution()
-# print(sols.combinationSum([ 8, 10, 6, 11, 1, 16, 8 ], 28))
-# print(sols.countAndSay(7))
-
-# def permute(A, r, l, start):
-#
-#     if len(start) == len(A):
-#         print(start)
-#         start = ''
-#
-#     for i in range(r, l+1):
-#
-#         start += A[i]
-#
-#         permute(A, r+1, l, start)
-#
-#         A[r], A[l] = A[l], A[r]
-#
-# a=["a","b","c"]
-# n = len(a)
-# permute(a, 0, n-1, '')
+class Solution:
+    # @param A : string
+    # @param B : tuple of strings
+    # @return a list of integers
+    def findSubstring(self, A, B):
 
 
+        sum_ = 0
+        for i in B:
+            sum_ += hash(i)
+        # ["foo", "bar"]
+        l, lw = len(B), len(B[0])
+        start = 0
+        end = l * lw
+        res = []
+        # if len(list(set(list(A)))) == len(list(set(B))):
+        #     return list(range(0, len(A) - end + 1))
+        # "barfoothefoobarman"
+        while start <= len(A):
+            word = A[start:end]
+            # print(word)
+            j = 0
+            k = lw
+            sum_2 = 0
+            while j <= len(word):
+                sum_2 += hash(word[j:k])
+                j += lw
+                k += lw
+            if sum_ == sum_2:
+                res.append(start)
+            start += 1
+            end += 1
+
+        return res
