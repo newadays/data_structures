@@ -5,9 +5,6 @@
 * Problems and Solutions
 * Algorithms
 
-You can read more from here on merits and time complexity (how fast) of each data structures
+You can read more from [here](http://bigocheatsheet.com/) on merits and time complexity (think of how fast) of each data structures
 
-
-
-[[http://bigocheatsheet.com/|alt=Big)]]
-
+![alt text](http://bigocheatsheet.com/img/big-o-cheat-sheet-poster.png)
