@@ -105,3 +105,20 @@ Solution = Solution()
 print(Solution.equal([ 3, 4, 7, 1, 2, 9, 8]))
 
 
+class Solution:
+    # @param A : list of list of integers
+    # @return an integer
+
+    # [2] i =0 0-1
+    # [3,4] j = 0-2, i = 1
+    # [6,5,7] j = 0-3, i = 2 [5]-> 1, 8
+    # [4,1,8,3] j = 0-4 i = 3
+    def minimumTotal(self, A):
+        min_ = []
+        i = 0
+        for arr in A:
+            min_.append(min(arr[0:i + 1]))
+            i += 1
+        return sum(min_)
+
+#Min Sum Path in Triangle

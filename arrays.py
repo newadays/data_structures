@@ -62,12 +62,35 @@ class Solution:
                    c,d = (list(sorted(possible_c_d)))[0]
                    return sorted([A[a], A[b], A[c], A[d]])
 
+    def findDuplicates(self, A):
+
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        # Input:
+        # [4,3,2,7,8,2,3,1]
+        # Output:
+        # [2,3]
+        i = 0
+        ls = {}
+        res = {}
+        while i < len(A):
+            if A[i] in ls:
+                res[A[i]] = i
+            else:
+                ls[A[i]] = A[i]
+            i += 1
+
+        return list(res.keys())
 
 Sols = Solution()
 a = [2, 7, 4, 0, 9, 5, 1, 3]
 s = 20
 # print(findQuad(a, s))
 print(Sols.find_array_quadruplet(a, s))
+
+
 
 
 
