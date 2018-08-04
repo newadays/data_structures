@@ -260,7 +260,7 @@ class Solution:
         return res
 
 
-# sols=Solution()
-# ans = sols.intersect([1,2,2,1],[2,2])
-# print(ans)
+sols=Solution()
+ans = sols.intersect([1,2,2,1],[2,2])
+print(ans)
 print(binarySearch_iter([2,3,4,5,7], 0, len([2,3,4,5,7]), 7))
