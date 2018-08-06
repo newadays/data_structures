@@ -347,4 +347,75 @@ def detectCycle(A):
     #         self.next = None
 
 
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.next = None
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert_node(self, val):
+        node = Node(val)
+        node.next = self.head
+        self.head = node
+
+    def insert_kth(self, k, val):
+        node = Node(val)
+        i = 1
+        curr = self.head
+        while i < k:
+            curr = curr.next
+            i += 1
+        prev = curr.next
+        curr.next = node
+        node.next = prev
+
+    def del_kth_node(self, k):
+
+        if k <= 1:
+            self.head = self.head.next
+        else:
+            curr = self.head
+            i = 1
+            while curr and i < k:
+                i += 1
+                if i == k:
+                    curr.next = curr.next.next
+                curr = curr.next
+
+    def reverse(self):
+        curr = self.head
+        prev = None
+        while curr:
+            next = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next
+        self.head = prev
+
+    def rreverse(self):
+
+        def rev(curr):
+            if curr.next is None:
+                self.head = curr
+                return
+            rev(curr.next)
+            prev = curr.next
+            prev.next = curr
+            curr.next = None
+
+        rev(self.head)
+
+    def length(self):
+        i = 0
+        curr = self.head
+        while curr:
+            curr = curr.next
+            i += 1
+        return i
+
+
 
