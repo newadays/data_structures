@@ -58,7 +58,7 @@ def drl(root):
         drl(root.right)
 
 
-# LRD - InOrder : left -> root -> right
+# LDR - InOrder : left -> root -> right
 def ldr(root):
     if root is None:
         return
@@ -304,26 +304,29 @@ def findLCA(head, n1, n2):
 # print(findLCA(head, 5, 11))
 
 
+# Definition for a  binary tree node
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
 class BSTIterator:
     # @param root, a binary search tree's root node
     ls = []
 
     def __init__(self, root):
-        self.ls = self.ldr(root, self.ls)
+        st = []
+        self.ls = self.ldr(root, st)
 
-    def ldr(self, root, ls):
+    def ldr(self, root, st):
         if root is None:
             return
         else:
-            self.ldr(root.left, ls)
-            self.ls.insert(0, root.val)
-            self.ldr(root.right, ls)
-        return ls
-
-    # def findMin(self, root, k):
-    #     while root.left:
-    #         root = root.left
-    #     return root.left
+            self.ldr(root.left, st)
+            st.insert(0, root.val)
+            self.ldr(root.right, st)
+        return st
 
     # @return a boolean, whether we have a next smallest number
     def hasNext(self):
@@ -344,5 +347,50 @@ test = BSTIterator(head)
 print(test.ls)
 print(test.next())
 print(test.next())
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+def insert_node(root, val):
+    if root is None or root.val is None:
+        root = getNode(val)
+    else:
+        if val <= root.val:
+            if root.left is None:
+                root.left = getNode(val)
+            else:
+                root.left = insert_node(root.left, val)
+        else:
+            if root.right is None:
+                root.right = getNode(val)
+            else:
+                root.right = insert_node(root.right, val)
+    return root
+
+
+def traverse(root):
+    if root is None or root.val is None:
+        return
+
+    traverse(root.left)
+    print(root.val)
+    traverse(root.right)
+
+
+tree = TreeNode(None)
+tree = insert_node(tree, 15)
+tree = insert_node(tree, 10)
+tree = insert_node(tree, 50)
+tree = insert_node(tree, 7)
+tree = insert_node(tree, 13)
+tree = insert_node(tree, 25)
+tree = insert_node(tree, 17)
+tree = insert_node(tree, 55)
+tree = insert_node(tree, 56)
+traverse(tree)
 
 

@@ -91,6 +91,19 @@ s = 20
 print(Sols.find_array_quadruplet(a, s))
 
 
+def generate(A):
+    if A <= 0:
+        return []
+    result = [[1]]
+    for r in range(1, A):
+        row = [1]
+        for i in range(1, r):
+            row.append(result[r - 1][i - 1] + result[r - 1][i])
+        row.append(1)
+        result.append(row)
+    return result
+
+print(generate(3))
 
 
 
