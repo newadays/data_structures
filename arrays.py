@@ -106,4 +106,26 @@ def generate(A):
 print(generate(3))
 
 
+def split_arr(A):
+    l = len(A) - 1
+    r = 0
+    sum_r = sum_l = 0
+    while r <= l:
+        if sum_r == sum_l:
+            sum_r += A[r]
+            sum_l += A[l]
+            r += 1
+            l -= 1
+        elif sum_r < sum_l:
+            sum_r += A[r]
+            r += 1
+        else:
+            sum_l += A[l]
+            l -= 1
+    return sum_r, sum_l
+
+
+print(split_arr([2, 5, 11, 3, 4, 5, 6]))
+
+
 

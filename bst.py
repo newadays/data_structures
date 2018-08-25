@@ -259,6 +259,36 @@ class Solution:
 
         return res
 
+def sqrt(A):
+    # @param A : integer
+    # @return an integer
+    if A == 0:
+        return A
+    if A > 3:
+        hi = A
+        lo = 1
+        mid = lo + (hi - lo) // 2
+        while lo < hi:
+            mid = lo + (hi - lo) // 2
+            midval = mid * mid
+            if midval < A:
+                lo = mid + 1
+            elif midval > A:
+                hi = mid
+            else:
+                return mid
+
+        if mid * mid > A:
+            mid -= 1
+
+        return mid
+    else:
+        return 1
+
+
+A = [2,4,3,1]
+# print(mergeSort(A,4))
+print(sqrt(37))
 
 sols=Solution()
 ans = sols.intersect([1,2,2,1],[2,2])

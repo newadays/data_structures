@@ -41,6 +41,27 @@ class Solution:
         else:
             return A.strip()
 
+    def mostCommonWord(self, paragraph, banned):
+        """
+        :type paragraph: str
+        :type banned: List[str]
+        :rtype: str
+        """
+        if not paragraph:
+            return ''
+        banned = [x.lower() for x in banned]
+        paragraph.lower()
+        p = paragraph.split(" ")
+        p = [x.strip("!?',;.").lower() for x in p]
+        cnt = -1
+        for word in p:
+            if word not in banned:
+
+                if cnt < p.count(word):
+                    res = word
+                    cnt = p.count(word)
+        return res
+
     # @param A : string
     # @param B : string
     # @return an integer
@@ -87,6 +108,30 @@ sols = Solution()
 print(sols.letterCombinations(list("234")))
 
 
+def longestCommonPrefix(A):
+    i = 0
+    new = ''
+    if len(A) == 1:
+        return A[0]
+    else:
+
+        while (True):
+
+            try:
+                for k in range(1, len(A)):
+
+                    if A[k - 1][i] != A[k][i]:
+                        return new
+
+                print(k)
+                new += A[k - 1][i]
+                # print(new)
+                i += 1
+
+            except:
+
+                return new
+
 class Solution:
     # @param A : string
     # @param B : tuple of strings
@@ -121,3 +166,15 @@ class Solution:
             end += 1
 
         return res
+
+    def strStr(self, A, B):
+        # @param A : string
+        # @param B : string
+        # @return an integer
+        for i in range(len(A)):
+            if A[i] == B[0]:
+                if B[0::] == A[i:i + len(B)]:
+                    return i
+        return -1
+
+
